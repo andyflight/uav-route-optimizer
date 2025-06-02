@@ -1,5 +1,10 @@
 # UAV ROUTE OPTIMIZER
 
+### Requirements:
+
+- python 3.12 or newer
+- all libraries from `requirements.txt`
+
 ### Instruction:
 
 To run application you need to execute following command:
