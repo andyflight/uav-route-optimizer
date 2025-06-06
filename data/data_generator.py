@@ -7,7 +7,7 @@ class DataGenerator:
     """Generates test tasks"""
     def __init__(self, plane_size: float = 200):
         self.plane_size = plane_size
-        self.min_objects = 5
+        self.min_objects = 10
         self.max_objects = 50
         self.distance_options = [100, 150, 200, 250, 300, 350, 400, 450, 500]
         self.radius_range = (0, 15)
@@ -43,7 +43,7 @@ class DataGenerator:
         test_suite = []
 
         # Generate tasks with different parameters
-        for n in range(5, 51, 5):  # 5, 10, 15, ..., 50 objects
+        for n in range(self.min_objects, self.max_objects, 5):  # 5, 10, 15, ..., 50 objects
             for L in self.distance_options:
                 # Generate 3 different radius values for each combination
                 for _ in range(3):

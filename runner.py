@@ -23,11 +23,11 @@ class Runner:
             'greedy': GreedySolver,
             'heuristic': HeuristicSolver
         }
-        path = "data/output"
-        self.output = str(max((int(f) for f in os.listdir(path) if f.isdigit() and os.path.isdir(os.path.join(path, f))),
+        self.path = os.path.join("data", "output") # "data/output"
+        self.output = str(max((int(f) for f in os.listdir(self.path) if f.isdigit() and os.path.isdir(os.path.join(self.path, f))),
                   default=0) + 1)
 
-        os.makedirs(os.path.join("data/output", self.output), exist_ok=True)
+        os.makedirs(os.path.join(self.path, self.output), exist_ok=True)
 
     def run_single_experiment(self, map_data: Map) -> Dict:
         """Run experiment with single map"""
@@ -78,11 +78,11 @@ class Runner:
             if isinstance(data, dict) and 'route' in data:
                 self.visualizer.visualize_results(
                     map_data, data['route'], data['surveyed_objects'], name.upper(),
-                    os.path.join("data/output", self.output, f"{name}_{i}.png")
+                    os.path.join(self.path, self.output, f"{name}_{i}.png")
                 )
 
         # Show comparison
-        self.visualizer.visualize_comparison(results, os.path.join("data/output", self.output, f"compare_{i}.png"))
+        self.visualizer.visualize_comparison(results, os.path.join(self.path, self.output, f"compare_{i}.png"))
 
 
         return results
@@ -131,7 +131,7 @@ class Runner:
             # Generate new maps
             print(f"Generating {args.number} test cases...")
             for i in range(args.number):
-                n_objects = random.randint(5, 20)
+                n_objects = random.randint(30, 35)
                 max_distance = random.choice(self.data_generator.distance_options)
                 survey_radius = random.uniform(5, 15)
 
@@ -177,4 +177,4 @@ class Runner:
             # Print results
             self.data_manager.print_results_to_console(results)
 
-        print("\nAll experiments completed!")
+        print("\nAll tasks completed!")

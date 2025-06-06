@@ -9,7 +9,7 @@ from data.visualizer import Visualizer
 class DataManager:
     """Handles data input/output operations"""
 
-    def __init__(self, input_dir: str = "data/input", output_dir: str = "data/output"):
+    def __init__(self, input_dir: str = os.path.join("data", "input"), output_dir: str = os.path.join("data", "output")):
         self.input_dir = input_dir
         self.output_dir = output_dir
         self.create_directories()
@@ -32,7 +32,8 @@ class DataManager:
     def save_results_to_file(self, results: Dict, filename: str):
         """Save results to JSON file"""
         filepath = os.path.join(self.output_dir, filename)
-        file_dir = "/".join(filepath.split("/")[:3])
+        parts = filepath.split(os.sep)[:3]
+        file_dir = os.path.join(*parts)
         os.makedirs(file_dir, exist_ok=True)
 
         # Convert complex objects to serializable format

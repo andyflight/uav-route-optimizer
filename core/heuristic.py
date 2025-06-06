@@ -16,10 +16,8 @@ class HeuristicSolver(Solver):
         """Solve using metaheuristic approach"""
         # Initial greedy route
         route = self._greedy_initial_route()
-        iteration = 0
 
-        while iteration < self.max_iterations:
-            # Local search
+        while True:
             route = self._local_search_2opt(route)
 
             # Geometric optimization
@@ -36,7 +34,6 @@ class HeuristicSolver(Solver):
             if len(route) <= 2:
                 break
 
-            iteration += 1
 
         surveyed_objects = self.get_surveyed_objects(route)
         total_distance = self.calculate_route_distance(route)
@@ -67,8 +64,13 @@ class HeuristicSolver(Solver):
         best_route = route.copy()
         best_distance = self.calculate_route_distance(best_route)
         improved = True
+        iteration = 0
 
         while improved:
+            iteration += 1
+            if iteration > self.max_iterations:
+                break
+
             improved = False
             for i in range(1, len(route) - 2):
                 for j in range(i + 1, len(route) - 1):
@@ -119,14 +121,14 @@ class HeuristicSolver(Solver):
             return [self.map_data.start_point, self.map_data.end_point]
 
         best_route = route
-        min_distance = self.calculate_route_distance(route)
+        best_score = float('inf')
 
         for i in range(1, len(route) - 1):
             temp_route = route[:i] + route[i + 1:]
             temp_distance = self.calculate_route_distance(temp_route)
 
-            if temp_distance < min_distance:
-                min_distance = temp_distance
+            if temp_distance < best_score:
+                best_score = temp_distance
                 best_route = temp_route
 
         return best_route
